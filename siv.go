@@ -11,11 +11,11 @@ import (
 	"crypto/cipher"
 	"crypto/subtle"
 	"errors"
+	"fmt"
 	"github.com/miscreant/miscreant-go/block"
 	"github.com/miscreant/miscreant-go/cmac"
 	"github.com/miscreant/miscreant-go/pmac"
 	"hash"
-	"log"
 )
 
 // MaxAssociatedDataItems is the maximum number of associated data items
