@@ -15,6 +15,7 @@ import (
 	"github.com/miscreant/miscreant-go/cmac"
 	"github.com/miscreant/miscreant-go/pmac"
 	"hash"
+	"log"
 )
 
 // MaxAssociatedDataItems is the maximum number of associated data items
@@ -139,7 +140,7 @@ func (c *Cipher) Open(dst []byte, ciphertext []byte, data ...[]byte) ([]byte, er
 		return nil, ErrTooManyAssociatedDataItems
 	}
 	if len(ciphertext) < c.Overhead() {
-		return nil, ErrNotAuthentic
+		return nil, fmt.Errorf("%s: error with length of ciphertext being less than overhead", ErrNotAuthentic)
 	}
 
 	// Decrypt
@@ -153,7 +154,7 @@ func (c *Cipher) Open(dst []byte, ciphertext []byte, data ...[]byte) ([]byte, er
 	// Authenticate
 	expected := c.s2v(data, out)
 	if subtle.ConstantTimeCompare(ciphertext[:len(iv)], expected) != 1 {
-		return nil, ErrNotAuthentic
+		return nil, fmt.Errorf("%s: error in ConstantTimeCompare for ciphertext", ErrNotAuthentic)
 	}
 	return ret, nil
 }
