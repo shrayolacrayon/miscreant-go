@@ -154,7 +154,7 @@ func (c *Cipher) Open(dst []byte, ciphertext []byte, data ...[]byte) ([]byte, er
 	// Authenticate
 	expected := c.s2v(data, out)
 	if subtle.ConstantTimeCompare(ciphertext[:len(iv)], expected) != 1 {
-		return nil, fmt.Errorf("%s: error in ConstantTimeCompare for ciphertext", ErrNotAuthentic)
+		return nil, fmt.Errorf("%s: error mismatch with ciphertext %v, expected %v", ErrNotAuthentic, ciphertext[:len(iv)], expected)
 	}
 	return ret, nil
 }
